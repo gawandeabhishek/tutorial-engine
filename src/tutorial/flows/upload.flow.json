@@ -1,0 +1,9 @@
+{
+  "id": "upload-flow",
+  "steps": [
+    { "selector": "#upload-btn" },
+    { "selector": "#file-input" },
+    { "selector": "#confirm-upload-btn" },
+    { "selector": "#upload-success" }
+  ]
+}
