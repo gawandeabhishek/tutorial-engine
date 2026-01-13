@@ -1,0 +1,7 @@
+{
+  "description": "string",
+  "steps": [
+    { "selector": "string" },
+    { "selector": "string", "nextRoute": "string" }
+  ]
+}

@@ -1,9 +1,0 @@
-{
-  "id": "chat-flow",
-  "steps": [
-    { "selector": "#open-chat" },
-    { "selector": "#message-input" },
-    { "selector": "#send-message-btn" },
-    { "selector": "#chat-success" }
-  ]
-}

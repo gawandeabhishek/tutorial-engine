@@ -1,15 +1,16 @@
 import type { Tour } from "onborda/dist/types";
-import { SpotlightFlowConfig } from "./types";
+import { TutorialFlowConfig } from "./types";
 
-export function createTourFromFlow(flow: SpotlightFlowConfig): Tour {
+export function createTourFromFlow(flow: TutorialFlowConfig): Tour {
   return {
-    tour: flow.id,
+    tour: flow.description,
     steps: flow.steps.map((step) => ({
       selector: step.selector,
       title: "",
       content: null,
       showControls: false,
       icon: null,
+      nextRoute: step.nextRoute,
     })),
   };
 }

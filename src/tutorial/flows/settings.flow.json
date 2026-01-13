@@ -1,9 +1,0 @@
-{
-  "id": "settings-flow",
-  "steps": [
-    { "selector": "#open-settings" },
-    { "selector": "#toggle-darkmode" },
-    { "selector": "#save-settings-btn" },
-    { "selector": "#settings-success" }
-  ]
-}

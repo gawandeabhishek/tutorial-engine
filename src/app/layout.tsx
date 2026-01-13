@@ -1,11 +1,7 @@
 import { TutorialEngine } from "@/tutorial/TutorialEngine";
-import { createTourFromFlow } from "@/tutorial/createTour";
-import uploadFlow from "@/tutorial/flows/upload.flow.json";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const tours = [createTourFromFlow(uploadFlow)];
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

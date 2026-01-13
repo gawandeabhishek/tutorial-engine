@@ -1,8 +1,9 @@
-export interface SpotlightStep {
+export interface TutorialStep {
   selector: string;
+  nextRoute?: string;
 }
 
-export interface SpotlightFlowConfig {
-  id: string;
-  steps: SpotlightStep[];
+export interface TutorialFlowConfig {
+  description: string;
+  steps: TutorialStep[];
 }
