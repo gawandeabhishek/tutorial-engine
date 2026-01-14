@@ -56,7 +56,6 @@ const ChatBot = () => {
 
     const toolPart = lastMessage.parts.find(isGetTutorialPart);
 
-    console.log(toolPart);
     if (toolPart?.state === "output-available" && toolPart.output?.tour) {
       setId(toolPart.output.tour.toString());
     }

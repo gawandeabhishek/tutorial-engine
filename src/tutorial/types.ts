@@ -1,5 +1,6 @@
 export interface TutorialStep {
   selector: string;
+  prevRoute?: string;
   nextRoute?: string;
 }
 

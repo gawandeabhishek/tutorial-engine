@@ -128,7 +128,6 @@ function StepAdvance() {
       const tag = el.tagName.toLowerCase();
 
       if (tag === "input" || tag === "textarea") {
-        // Cast once safely
         const inputEl = el as HTMLInputElement | HTMLTextAreaElement;
 
         const keyHandler = (e: KeyboardEvent) => {

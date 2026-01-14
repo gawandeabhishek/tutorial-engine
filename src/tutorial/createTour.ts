@@ -11,6 +11,7 @@ export function createTourFromFlow(flow: TutorialFlowConfig): Tour {
       showControls: false,
       icon: null,
       nextRoute: step.nextRoute,
+      prevRoute: step.prevRoute,
     })),
   };
 }
