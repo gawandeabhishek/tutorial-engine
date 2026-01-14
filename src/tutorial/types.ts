@@ -4,6 +4,7 @@ export interface TutorialStep {
 }
 
 export interface TutorialFlowConfig {
+  tour: string;
   description: string;
   steps: TutorialStep[];
 }

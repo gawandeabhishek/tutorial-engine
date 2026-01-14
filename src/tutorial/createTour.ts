@@ -3,7 +3,7 @@ import { TutorialFlowConfig } from "./types";
 
 export function createTourFromFlow(flow: TutorialFlowConfig): Tour {
   return {
-    tour: flow.description,
+    tour: flow.tour,
     steps: flow.steps.map((step) => ({
       selector: step.selector,
       title: "",

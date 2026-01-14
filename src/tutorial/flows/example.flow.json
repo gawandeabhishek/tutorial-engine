@@ -1,7 +1,31 @@
 {
-  "description": "string",
+  "tour": "1",
+  "description": "Guide the user to upload an image and confirm success",
   "steps": [
-    { "selector": "string" },
-    { "selector": "string", "nextRoute": "string" }
+    {
+      "selector": "#first",
+      "nextRoute": "/"
+    },
+    {
+      "selector": "#open-chat",
+      "nextRoute": "/chat"
+    },
+    {
+      "selector": "#message-input"
+    },
+    {
+      "selector": "#send-message-btn",
+      "prevRoute": "/chat",
+      "nextRoute": "/upload"
+    },
+    {
+      "selector": "#upload-input"
+    },
+    {
+      "selector": "#upload-submit-btn"
+    },
+    {
+      "selector": "#upload-success"
+    }
   ]
 }

@@ -1,5 +1,5 @@
-import { createTourFromFlow } from "./createTour";
 import type { Tour } from "onborda/dist/types";
+import { createTourFromFlow } from "./createTour";
 import { TutorialFlowConfig } from "./types";
 
 export async function loadAllFlows(): Promise<Tour[]> {
