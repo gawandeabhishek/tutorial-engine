@@ -19,19 +19,18 @@ export async function ingestFlowFiles() {
 
       const parsed: TutorialFlowConfig = JSON.parse(raw);
 
-      const { id, description } = parsed;
+      const { tour, description, ai_steps } = parsed;
 
-      // 1️⃣ Generate embedding from description
       const embeddings = await generateEmbeddings(description);
 
-      // 2️⃣ Send to Node.js backend
       try {
         const res = await fetch("http://localhost:8080/insert", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id,
+            tour,
             description,
+            ai_steps,
             embedding: embeddings[0].embedding,
           }),
         });

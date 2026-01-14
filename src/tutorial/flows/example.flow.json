@@ -1,6 +1,7 @@
 {
   "tour": "1",
   "description": "Guide the user to upload an image and confirm success",
+  "ai_steps": "Ask the user to first go to the home page, then open the chat, type a message, click send, upload an image using the upload input, submit it, and confirm that the upload was successful.",
   "steps": [
     {
       "selector": "#first",

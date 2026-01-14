@@ -18,9 +18,14 @@ const findTutorial = async (question: string) => {
     body: JSON.stringify({ queryEmbedding, minSimilarity: 0.3, limit: 1 }),
   });
 
-  const tutorial: { tour: number[]; desc: string }[] = await res.json();
+  const tutorial: { tour: number[]; desc: string; ai_steps: string }[] =
+    await res.json();
   console.log("tutorial", tutorial);
-  return { tour: tutorial[0].tour, desc: tutorial[0].desc };
+  return {
+    tour: tutorial[0].tour,
+    desc: tutorial[0].desc,
+    ai_steps: tutorial[0].ai_steps,
+  };
 };
 
 export const maxDuration = 30;
@@ -35,7 +40,23 @@ export async function POST(req: Request) {
     temperature: 0.1,
     stopWhen: stepCountIs(5),
     system: `You are a helpful assistant. Only respond to questions using tool calls. 
-    If no relevant tutorial is found, respond: "Sorry, I don't know."`,
+
+- Always provide answers in a **structured format**, using:
+  - **Bold headings** for sections
+  - **Bullet points** for steps or instructions
+  - **Code blocks** for commands or code snippets
+  - **Numbered lists** for sequences or tutorials
+
+- If no relevant tutorial is found, respond:  
+  **"Sorry, I don't know."**
+
+- If a tutorial is found:
+  - Summarize the **ai_steps** clearly in bullet points
+  - COMPULSORILY Suggest the user can **toggle the button below** to start a virtual tutorial
+  - Include any **tips, warnings, or prerequisites** if relevant
+
+- Keep responses concise, readable, and user-friendly, similar to a **README file**.
+`,
     tools: {
       getTutorial: tool({
         description: "Get tutorial from the knowledge base",

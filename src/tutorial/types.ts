@@ -5,6 +5,7 @@ export interface TutorialStep {
 
 export interface TutorialFlowConfig {
   tour: string;
+  ai_steps: string;
   description: string;
   steps: TutorialStep[];
 }
