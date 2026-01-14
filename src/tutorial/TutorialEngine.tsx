@@ -111,27 +111,50 @@ function StepAdvance() {
     if (!currentStep) return;
 
     let cancelled = false;
+    let cleanup: (() => void) | undefined;
 
     waitForElement(currentStep.selector).then((el) => {
-      if (cancelled) return;
+      if (cancelled || !el) return;
 
-      const handler = () => {
-        requestAnimationFrame(() => {
-          const nextRoute = currentStep.nextRoute;
-          if (nextRoute) router.push(nextRoute);
+      const goNext = () => {
+        const nextRoute = currentStep.nextRoute;
+        if (nextRoute) router.push(nextRoute);
 
-          const nextStep = step + 1;
-          if (nextStep < tour.steps.length) goTo(nextStep);
-          else stop();
-        });
+        const nextStep = step + 1;
+        if (nextStep < tour.steps.length) goTo(nextStep);
+        else stop();
       };
 
-      el.addEventListener("click", handler);
-      return () => el.removeEventListener("click", handler);
+      const tag = el.tagName.toLowerCase();
+
+      if (tag === "input" || tag === "textarea") {
+        // Cast once safely
+        const inputEl = el as HTMLInputElement | HTMLTextAreaElement;
+
+        const keyHandler = (e: KeyboardEvent) => {
+          if (e.key === "Enter") goNext();
+        };
+
+        const blurHandler = () => goNext();
+
+        inputEl.addEventListener("keydown", keyHandler as EventListener);
+        inputEl.addEventListener("blur", blurHandler as EventListener);
+
+        cleanup = () => {
+          inputEl.removeEventListener("keydown", keyHandler as EventListener);
+          inputEl.removeEventListener("blur", blurHandler as EventListener);
+        };
+      } else {
+        const clickHandler = () => goNext();
+        el.addEventListener("click", clickHandler);
+
+        cleanup = () => el.removeEventListener("click", clickHandler);
+      }
     });
 
     return () => {
       cancelled = true;
+      cleanup?.();
     };
   }, [tutorialId, step, tours, router, active, goTo, stop]);
 
