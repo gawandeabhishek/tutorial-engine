@@ -1,11 +1,9 @@
 "use client";
 
 import { useTutorialStore } from "@/tutorial";
-import { useEffect } from "react";
 
 export default function ChatPage() {
-  const { active, tutorialId, step, tours, setTours, start } =
-    useTutorialStore();
+  const { active, tutorialId, step, start } = useTutorialStore();
 
   return (
     <div style={{ padding: 40 }}>

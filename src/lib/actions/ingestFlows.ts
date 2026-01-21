@@ -1,11 +1,39 @@
 "use server";
 
-import fs from "fs";
-import path from "path";
 import { generateEmbeddings } from "@/lib/ai/embedding";
 import { TutorialFlowConfig } from "@/tutorial/types";
+import fs from "fs";
+// @ts-ignore
+import gTTS from "gtts";
+import path from "path";
 
 const FLOWS_DIR = path.join(process.cwd(), "src/tutorial/flows");
+const AUDIO_DIR = path.join(process.cwd(), "public/tutorials");
+
+export async function generateStepAudio(
+  tour: string,
+  stepIndex: number,
+  text: string,
+) {
+  const tourDir = path.join(AUDIO_DIR, tour);
+  if (!fs.existsSync(tourDir)) {
+    fs.mkdirSync(tourDir, { recursive: true });
+  }
+
+  const filePath = path.join(tourDir, `${stepIndex}.mp3`);
+
+  const tts = new gTTS(text, "en");
+  tts.save(filePath, (err: any) => {
+    if (err) {
+      console.error(
+        `❌ Failed to generate audio for step ${stepIndex} of tour "${tour}"`,
+        err,
+      );
+    } else {
+      console.log(`✅ Generated audio for step ${stepIndex} of tour "${tour}"`);
+    }
+  });
+}
 
 export async function ingestFlowFiles() {
   try {
@@ -18,10 +46,17 @@ export async function ingestFlowFiles() {
       const raw = fs.readFileSync(filePath, "utf-8");
 
       const parsed: TutorialFlowConfig = JSON.parse(raw);
+      const { tour, description, steps } = parsed;
 
-      const { tour, description, ai_steps } = parsed;
+      const stepDescriptions = steps
+        .map((s) => s.step_desc)
+        .filter(Boolean) as string[];
 
       const embeddings = await generateEmbeddings(description);
+
+      stepDescriptions.forEach((desc, i) =>
+        generateStepAudio(tour, i + 1, desc),
+      );
 
       try {
         const res = await fetch("http://localhost:8080/insert", {
@@ -30,7 +65,7 @@ export async function ingestFlowFiles() {
           body: JSON.stringify({
             tour,
             description,
-            ai_steps,
+            step_descriptions: stepDescriptions,
             embedding: embeddings[0].embedding,
           }),
         });
@@ -41,9 +76,9 @@ export async function ingestFlowFiles() {
           throw new Error(errorText);
         }
 
-        return res;
+        console.log(`✅ Flow "${tour}" ingested successfully`);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
 

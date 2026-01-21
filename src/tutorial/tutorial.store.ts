@@ -1,19 +1,18 @@
-import { Tour } from "onborda/dist/types";
 import { create } from "zustand";
+import { TutorialTour } from "./types";
 
 export interface TutorialState {
   active: boolean;
   tutorialId: string | null;
   step: number;
-  tours: Tour[];
+  tours: TutorialTour[];
 }
 
 interface TutorialStore extends TutorialState {
   start: (id: string, step?: number) => void;
   goTo: (step: number) => void;
   stop: () => void;
-  sync: (state: TutorialState) => void;
-  setTours: (tours: Tour[]) => void;
+  setTours: (tours: TutorialTour[]) => void;
   setId: (id: string) => void;
 }
 
@@ -28,8 +27,6 @@ export const useTutorialStore = create<TutorialStore>((set) => ({
   goTo: (step) => set({ step }),
 
   stop: () => set({ active: false, tutorialId: null, step: 0 }),
-
-  sync: (state) => set(state),
 
   setTours: (tours) => set({ tours }),
 

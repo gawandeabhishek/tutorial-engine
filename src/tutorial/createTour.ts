@@ -1,7 +1,6 @@
-import type { Tour } from "onborda/dist/types";
-import { TutorialFlowConfig } from "./types";
+import { TutorialFlowConfig, TutorialTour } from "./types";
 
-export function createTourFromFlow(flow: TutorialFlowConfig): Tour {
+export function createTourFromFlow(flow: TutorialFlowConfig): TutorialTour {
   return {
     tour: flow.tour,
     steps: flow.steps.map((step) => ({
@@ -12,6 +11,7 @@ export function createTourFromFlow(flow: TutorialFlowConfig): Tour {
       icon: null,
       nextRoute: step.nextRoute,
       prevRoute: step.prevRoute,
+      step_desc: step.step_desc || "",
     })),
   };
 }

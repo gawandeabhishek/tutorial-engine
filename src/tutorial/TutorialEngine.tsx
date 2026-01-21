@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { Onborda, OnbordaProvider, useOnborda } from "onborda";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import SpotlightNoCard from "./SpotlightNoCard";
 import { loadAllFlows } from "./loadFlows";
@@ -24,6 +24,18 @@ const waitForElement = (selector: string): Promise<Element> => {
     observer.observe(document.body, { childList: true, subtree: true });
   });
 };
+
+let currentAudio: HTMLAudioElement | null = null;
+
+function playStepAudio(tourId: string, stepIndex: number) {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+  const audio = new Audio(`/tutorials/${tourId}/${stepIndex}.mp3`);
+  currentAudio = audio;
+  audio.play().catch((err) => console.error("Audio play error:", err));
+}
 
 export function TutorialEngine({ children }: { children: React.ReactNode }) {
   const { active, tours, setTours } = useTutorialStore();
@@ -54,16 +66,19 @@ function StepSync() {
   const pathname = usePathname();
   const { startOnborda, setCurrentStep, closeOnborda } = useOnborda();
   const { tutorialId, step, tours, active } = useTutorialStore();
+  const lastSpokenStep = useRef<number | null>(null);
 
   useEffect(() => {
     if (!tutorialId || !active) {
       closeOnborda();
+      lastSpokenStep.current = null;
       return;
     }
 
     const tour = tours.find((t) => t.tour === tutorialId);
     if (!tour) {
       closeOnborda();
+      lastSpokenStep.current = null;
       return;
     }
 
@@ -78,6 +93,8 @@ function StepSync() {
     waitForElement(current.selector).then(() => {
       if (cancelled) return;
       setCurrentStep(step);
+
+      playStepAudio(tutorialId, step);
     });
 
     return () => {

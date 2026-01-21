@@ -45,7 +45,7 @@ const ChatBot = () => {
   const [currentStep, setCurrentStep] = useState<number>(step);
 
   function isGetTutorialPart(
-    part: UIMessagePart<UIDataTypes, UITools>
+    part: UIMessagePart<UIDataTypes, UITools>,
   ): part is ToolUIPart<{ getTutorial: any }> {
     return part.type === "tool-getTutorial";
   }
@@ -59,7 +59,7 @@ const ChatBot = () => {
     if (toolPart?.state === "output-available" && toolPart.output?.tour) {
       setId(toolPart.output.tour.toString());
     }
-  }, [messages, setId]);
+  }, [messages]);
 
   const handleSubmit = (message: PromptInputMessage) => {
     const hasText = Boolean(message.text);
@@ -85,6 +85,7 @@ const ChatBot = () => {
       setCurrentStep(step);
     }
   };
+  console.log(messages[messages.length - 1]);
   return (
     <div className="fixed bottom-4 right-4 w-90 h-120 z-50 shadow-lg rounded-xl overflow-hidden bg-white flex flex-col">
       <div className="flex-1 overflow-hidden flex flex-col p-2">
@@ -99,7 +100,7 @@ const ChatBot = () => {
                       <SourcesTrigger
                         count={
                           message.parts.filter(
-                            (part) => part.type === "source-url"
+                            (part) => part.type === "source-url",
                           ).length
                         }
                       />

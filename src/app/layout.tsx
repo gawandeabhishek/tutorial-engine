@@ -3,6 +3,7 @@ import { TutorialEngine } from "@/tutorial/TutorialEngine";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ingestFlowFiles } from "@/lib/actions/ingestFlows";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

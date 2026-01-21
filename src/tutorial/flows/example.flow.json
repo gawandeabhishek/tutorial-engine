@@ -1,32 +1,38 @@
 {
   "tour": "1",
   "description": "Guide the user to upload an image and confirm success",
-  "ai_steps": "Ask the user to first go to the home page, then open the chat, type a message, click send, upload an image using the upload input, submit it, and confirm that the upload was successful.",
   "steps": [
     {
       "selector": "#first",
-      "nextRoute": "/"
+      "nextRoute": "/",
+      "step_desc": "Go to the home page to begin the tutorial."
     },
     {
       "selector": "#open-chat",
-      "nextRoute": "/chat"
+      "nextRoute": "/chat",
+      "step_desc": "Open the chat section."
     },
     {
-      "selector": "#message-input"
+      "selector": "#message-input",
+      "step_desc": "Type a message in the chat input."
     },
     {
       "selector": "#send-message-btn",
       "prevRoute": "/chat",
-      "nextRoute": "/upload"
+      "nextRoute": "/upload",
+      "step_desc": "Send the message to continue."
     },
     {
-      "selector": "#upload-input"
+      "selector": "#upload-input",
+      "step_desc": "Upload an image using the upload input."
     },
     {
-      "selector": "#upload-submit-btn"
+      "selector": "#upload-submit-btn",
+      "step_desc": "Submit the uploaded image."
     },
     {
-      "selector": "#upload-success"
+      "selector": "#upload-success",
+      "step_desc": "Confirm that the image upload was successful."
     }
   ]
 }

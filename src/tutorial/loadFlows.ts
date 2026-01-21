@@ -1,13 +1,12 @@
 import type { Tour } from "onborda/dist/types";
 import { createTourFromFlow } from "./createTour";
-import { TutorialFlowConfig } from "./types";
+import { TutorialFlowConfig, TutorialTour } from "./types";
 
-export async function loadAllFlows(): Promise<Tour[]> {
+export async function loadAllFlows(): Promise<TutorialTour[]> {
   // TODO: Change file names according to client's project (delete existing and add new ones)
   const flowFiles = ["example.flow.json"];
 
-  const tours: Tour[] = [];
-
+  const tours: TutorialTour[] = [];
   for (const file of flowFiles) {
     const module = await import(`./flows/${file}`);
     const flow = module.default as TutorialFlowConfig;
@@ -15,10 +14,4 @@ export async function loadAllFlows(): Promise<Tour[]> {
   }
 
   return tours;
-}
-
-export function createFlowMap(tours: Tour[]): Record<string, Tour> {
-  const map: Record<string, Tour> = {};
-  tours.forEach((t) => (map[t.tour] = t));
-  return map;
 }
